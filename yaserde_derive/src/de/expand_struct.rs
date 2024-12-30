@@ -160,6 +160,7 @@ pub fn parse(
             }
             if let Ok(::yaserde::__xml::reader::XmlEvent::StartElement { .. }) = reader.peek() {
               // If substruct's start element found then deserialize substruct
+              reader.inner_struct_label = Some(#label_name);
               let value = <#struct_name as ::yaserde::YaDeserialize>::deserialize(reader)?;
               #value_label #action;
               // read EndElement
@@ -383,7 +384,6 @@ pub fn parse(
     build_code_for_unused_xml_events(&call_flatten_visitors)
   };
 
-  let flatten = root_attributes.flatten;
   let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
 
   quote! {
@@ -392,6 +392,7 @@ pub fn parse(
       fn deserialize<R: ::std::io::Read>(
         reader: &mut ::yaserde::de::Deserializer<R>,
       ) -> ::std::result::Result<Self, ::std::string::String> {
+        let root_label= reader.inner_struct_label.take().unwrap_or(#root);
         let (named_element, struct_namespace) =
           if let ::yaserde::__xml::reader::XmlEvent::StartElement { name, .. } = reader.peek()?.to_owned() {
             (name.local_name.to_owned(), name.namespace.clone())
@@ -421,7 +422,7 @@ pub fn parse(
           match event {
             ::yaserde::__xml::reader::XmlEvent::StartElement{ref name, ref attributes, ..} => {
               let namespace = name.namespace.clone().unwrap_or_default();
-              if depth == 0  {
+              if depth == 0 && name.local_name == root_label && namespace.as_str() == #root_namespace {
                 // Consume root element. We must do this first. In the case it shares a name with a child element, we don't
                 // want to prematurely match the child element below.
                 let event = reader.next_event()?;

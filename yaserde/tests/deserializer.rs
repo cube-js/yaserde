@@ -1196,3 +1196,54 @@ fn de_nested_3_levels() {
   };
   deserialize_and_validate!(content, model, A);
 }
+
+#[test]
+fn de_nested_issue_192() {
+  #[derive(Clone, Default, Debug, PartialEq, YaDeserialize)]
+  #[yaserde(
+    prefix = "xs",
+    namespaces = {
+      "xs" = "http://www.w3.org/2001/XMLSchema",
+    }
+  )]
+  pub struct XSDGroup {
+    #[yaserde(rename = "ref", attribute = true)]
+    pub reference: String,
+  }
+
+  #[derive(Clone, Default, Debug, PartialEq, YaDeserialize)]
+  #[yaserde(
+    rename = "sequence",
+    prefix = "xs",
+    namespaces = {
+      "xs" = "http://www.w3.org/2001/XMLSchema",
+    }
+  )]
+  pub struct Sequence {
+    #[yaserde(rename = "group", prefix = "xs")]
+    pub groups: Vec<XSDGroup>,
+
+    #[yaserde(rename = "sequence", prefix = "xs")]
+    pub sequences: Vec<Sequence>,
+  }
+
+  let content = r#"
+        <xsd:sequence xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+          <xsd:group ref="AR:AR-OBJECT"/>
+          <xsd:group ref="AR:AUTOSAR"/>
+        </xsd:sequence>
+      "#;
+  let model = Sequence {
+    groups: vec![
+      XSDGroup {
+        reference: "AR:AR-OBJECT".to_string(),
+      },
+      XSDGroup {
+        reference: "AR:AUTOSAR".to_string(),
+      },
+    ],
+    sequences: vec![],
+  };
+
+  deserialize_and_validate!(content, model, Sequence);
+}
