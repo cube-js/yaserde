@@ -1118,11 +1118,8 @@ fn de_nested_macro_rules() {
   float_attrs!(f32);
 }
 
-
 #[test]
 fn de_nested_element_equality() {
-
-
   #[derive(YaDeserialize, Debug, PartialEq)]
   #[yaserde(rename = "EBMLSchema")]
   struct Schema {
@@ -1140,10 +1137,10 @@ fn de_nested_element_equality() {
   #[derive(YaDeserialize, Debug, PartialEq)]
   #[yaserde(rename = "documentation")]
   struct Documentation {
-    #[yaserde(text=true)]
+    #[yaserde(text = true)]
     body: String,
   }
-  
+
   let parent = r#"<EBMLSchema>
 <element>
 <documentation>Test</documentation>
@@ -1155,42 +1152,47 @@ fn de_nested_element_equality() {
 <documentation>Test</documentation>
 </element>"#;
   let child: Element = yaserde::de::from_str(child).unwrap();
-  
+
   assert_ne!(parent.elements, vec![]);
   assert_eq!(parent.elements[0], child);
 }
 
 #[test]
-fn de_nested_3_levels(){
-
-  #[derive(YaSerialize,YaDeserialize,Debug,PartialEq)]
+fn de_nested_3_levels() {
+  #[derive(YaSerialize, YaDeserialize, Debug, PartialEq)]
   struct A {
     id: String,
     #[yaserde(rename = "SAME")]
-    many:Vec<B>
+    many: Vec<B>,
   }
 
-  #[derive(YaSerialize,YaDeserialize,Debug,PartialEq)]
+  #[derive(YaSerialize, YaDeserialize, Debug, PartialEq)]
   struct B {
     id: Option<String>,
     #[yaserde(rename = "SAME")]
-    many:Vec<C>
-
+    many: Vec<C>,
   }
 
-  #[derive(YaSerialize,YaDeserialize,Debug,PartialEq)]
+  #[derive(YaSerialize, YaDeserialize, Debug, PartialEq)]
   struct C {
     id: Option<String>,
   }
 
-  let content = r#"<A><id>a1</id><SAME><id>b1</id><SAME><id>c1</id></SAME><SAME><id>c2</id></SAME></SAME></A>"#;
-  let model =  A {
+  let content =
+    r#"<A><id>a1</id><SAME><id>b1</id><SAME><id>c1</id></SAME><SAME><id>c2</id></SAME></SAME></A>"#;
+  let model = A {
     id: "a1".to_string(),
-    many: vec![B { id: Some("b1".to_string()), many: vec![
-      C { id: Some("c1".to_string() )},
-      C { id: Some("c2".to_string() )},
-    ] }],
+    many: vec![B {
+      id: Some("b1".to_string()),
+      many: vec![
+        C {
+          id: Some("c1".to_string()),
+        },
+        C {
+          id: Some("c2".to_string()),
+        },
+      ],
+    }],
   };
   deserialize_and_validate!(content, model, A);
-
 }
