@@ -17,13 +17,9 @@ pub fn expand_derive_deserialize(ast: &syn::DeriveInput) -> Result<TokenStream, 
   let root_name = root_attributes.xml_element_name(name);
 
   let impl_block = match *data {
-    syn::Data::Struct(ref data_struct) => expand_struct::parse(
-      data_struct,
-      name,
-      &root_name,
-      &root_attributes,
-      generics,
-    ),
+    syn::Data::Struct(ref data_struct) => {
+      expand_struct::parse(data_struct, name, &root_name, &root_attributes, generics)
+    }
     syn::Data::Enum(ref data_enum) => {
       expand_enum::parse(data_enum, name, &root_name, &root_attributes, generics)
     }
