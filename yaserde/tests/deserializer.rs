@@ -583,7 +583,7 @@ fn de_complex_enum() {
     Dotted(u32),
   }
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Black>text</Black>
@@ -598,7 +598,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Orange>text</Orange>
@@ -613,7 +613,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Red>56</Red>
@@ -628,7 +628,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Green>
@@ -646,7 +646,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Yellow>text</Yellow>
@@ -661,7 +661,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Brown>
@@ -679,7 +679,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Blue>abc</Blue>
@@ -695,7 +695,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Purple>12</Purple>
@@ -711,7 +711,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base>
       <background>
         <Magenta><fi>12</fi><se>23</se></Magenta>
@@ -730,7 +730,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base xmlns:ns="http://www.sample.com/ns/domain">
       <background>
         <NotSoCyan><fi>12</fi><se>23</se></NotSoCyan>
@@ -749,7 +749,7 @@ fn de_complex_enum() {
     }
   );
 
-  let content = r#"<?xml version="1.0" encoding="utf-8"?>
+  let content = r#"<?xml version="1.0" encoding="UTF-8"?>
     <base xmlns:ns="http://www.sample.com/ns/domain">
       <background>
         <renamed.with.dots>54</renamed.with.dots>
@@ -854,7 +854,7 @@ fn de_subitem_issue_12() {
   }
 
   convert_and_validate!(
-    r#"<?xml version="1.0" encoding="utf-8"?>
+    r#"<?xml version="1.0" encoding="UTF-8"?>
     <Struct>
       <id>54</id>
       <SubStruct>
@@ -884,7 +884,7 @@ fn de_subitem_issue_12_with_sub() {
   }
 
   convert_and_validate!(
-    r#"<?xml version="1.0" encoding="utf-8"?>
+    r#"<?xml version="1.0" encoding="UTF-8"?>
     <Struct>
       <id>54</id>
       <SubStruct>
@@ -911,7 +911,7 @@ fn de_subitem_issue_12_attributes() {
   }
 
   convert_and_validate!(
-    r#"<?xml version="1.0" encoding="utf-8"?>
+    r#"<?xml version="1.0" encoding="UTF-8"?>
     <Struct id="54">
       <SubStruct id="86" />
     </Struct>
@@ -940,7 +940,7 @@ fn de_subitem_issue_12_attributes_with_sub() {
   }
 
   convert_and_validate!(
-    r#"<?xml version="1.0" encoding="utf-8"?>
+    r#"<?xml version="1.0" encoding="UTF-8"?>
     <Struct id="54">
       <sub1 id="63" />
       <sub2 id="72" />
